@@ -469,7 +469,7 @@ Click **Add client scope** tab, select audience and click **Add** default.
 
 ### Export the realm configuration
 
-In order to have this same configuration every time when the testcontainer is started, we will export this realm configuration to a import.josn file. The file will be imported by the test container during start-up.
+In order to have this same configuration every time when the testcontainer is started, we will export this realm configuration to a import.json file. The file will be imported by the test container during start-up.
 
 Add a folder named **Import** to the test project.
 
