@@ -304,13 +304,15 @@ Fill in the form with the following values:
 
 Username: ``myuser``
 
+Email: ``myuser@email.com``
+
 First name: any first name
 
 Last name: any last name
 
 Click Create.
 
-<img width="540" alt="image" src="https://github.com/user-attachments/assets/9cbe8c0d-8a54-4a8e-b991-dc762f0ff25c">
+<img width="743" alt="image" src="https://github.com/user-attachments/assets/51f1ba84-6969-47ed-8594-7e3d9b603e15">
 
 This user needs a password to log in. To set the initial password:
 
@@ -353,6 +355,74 @@ Click **Next**.
 <img width="841" alt="image" src="https://github.com/user-attachments/assets/2b378983-70f1-48d5-830e-3a06c368a335">
 
 Click **Save**.
+
+By default the Client Audience is not mapped to the token. We have to create and map it.
+
+Click on **Client Scope** on the left menu.
+
+Click **Create client scope** tab button.
+
+<img width="1087" alt="image" src="https://github.com/user-attachments/assets/3d21d3ac-f8e1-414d-a51e-dc52a798e8ba">
+
+Fill in the form with the following values:
+
+Name: ``audience``
+
+Type: ``Default``
+
+Toggle ``Display on consent`` screen to Off
+
+<img width="832" alt="image" src="https://github.com/user-attachments/assets/5566a1b9-5d94-4a64-9c43-8dfab934fe46">
+
+Click **Save**.
+
+<img width="818" alt="image" src="https://github.com/user-attachments/assets/85eace07-003f-4531-bfee-893fe68aff57">
+
+Click **Mapper** tab
+
+Click **Configure new mapper** and select **Audience**
+
+Fill in the form with the following values:
+
+Name: any name
+
+Included Client Audience: select ``myclient``
+
+<img width="545" alt="image" src="https://github.com/user-attachments/assets/5e94605d-0a5b-44b5-94d6-3c5a33f225e1">
+
+Click **Save**
+
+Click **Clients** on nav menu, select ``myclient``.
+
+Click **Add client scope** tab, select audience and click **Add** default.
+
+<img width="421" alt="image" src="https://github.com/user-attachments/assets/87c6f48b-2205-4a88-8439-86bcd72fcbec">
+
+###Export realm configuration
+
+In order to same configuration in the testcontainer, we will export this realm configuration to a import.josn file. The file will be imported by the test container during start-up.
+
+Add a folder named Import to the test project.
+
+<img width="203" alt="image" src="https://github.com/user-attachments/assets/1118d55c-261c-4eb5-aef7-c74f065f2c71">
+
+Open an terminal and navigate to the folder.
+
+<img width="784" alt="image" src="https://github.com/user-attachments/assets/65351476-f095-4c1a-88e2-a8c9fcd93067">
+
+
+<img width="794" alt="image" src="https://github.com/user-attachments/assets/7acd9309-cbe5-40d5-a3ff-95aa51bf21e5">
+
+
+
+
+
+
+
+
+
+
+
 
 
 
