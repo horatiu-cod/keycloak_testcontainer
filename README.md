@@ -274,5 +274,93 @@ networks:
   keycloak_network:
     driver: bridge
 ```
+Run the command to spin up the Keycloak container
+```powershell
+docker compose -f .\docker-compose.yml up -d
+```
+Open browser and open the ``https://localhost:8443``
+You'll be redirected to the login page.
+
+<img width="472" alt="image" src="https://github.com/user-attachments/assets/a551c8b9-33a5-4950-b253-eb54cca42d3e">
+
+Login with username ``admin`` and password ``admin`` 
+Create a new realm
+
+<img width="232" alt="image" src="https://github.com/user-attachments/assets/14a1b04c-7dc7-4100-baaf-0b882a590f75">
+
+For simplicity we'll name the realm ``myrealm``. Click **Create**.
+
+<img width="838" alt="image" src="https://github.com/user-attachments/assets/eb73d009-c309-4a01-8d02-b266da7607b4">
+
+Create a user
+
+Initially, the realm has no users. Use these steps to create a user:
+
+Verify that you are still in the myrealm realm, which is shown above the word Manage.
+
+Click **Users** in the left-hand menu. Click **Create new user**.
+
+Fill in the form with the following values:
+
+Username: ``myuser``
+
+First name: any first name
+
+Last name: any last name
+
+Click Create.
+
+<img width="540" alt="image" src="https://github.com/user-attachments/assets/9cbe8c0d-8a54-4a8e-b991-dc762f0ff25c">
+
+This user needs a password to log in. To set the initial password:
+
+Click Credentials at the top of the page.
+
+Fill in the Set password form with a ``mypassword`` password.
+
+Toggle Temporary to Off so that the user does not need to update this password at the first login.
+
+click **Save**.
+
+<img width="439" alt="image" src="https://github.com/user-attachments/assets/6cc98b78-a7a4-45f8-bb8d-b7814556ecd3">
+
+Create Client.
+
+Verify that you are still in the myrealm realm, which is shown above the word Manage.
+
+Click **Clients**.
+
+Click **Create client**
+
+Fill in the form with the following values:
+
+Client type: ``OpenID Connect``
+
+Client ID: ``myclient``
+
+
+<img width="870" alt="image" src="https://github.com/user-attachments/assets/35277a25-3553-4bc5-94c8-44634178c327">
+
+Click **Next**.
+
+Confirm that **Direct access grants** is enabled. For simplicity we'll create a public cllient.
+
+
+<img width="751" alt="image" src="https://github.com/user-attachments/assets/8b9f7cc1-0f21-472f-8cb7-c644d65fbc65">
+
+Click **Next**.
+
+<img width="841" alt="image" src="https://github.com/user-attachments/assets/2b378983-70f1-48d5-830e-3a06c368a335">
+
+Click **Save**.
+
+
+
+
+
+
+
+
+
 
 
