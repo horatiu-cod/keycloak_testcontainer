@@ -1,6 +1,8 @@
 # Asp.Net Core and Keycloak testcontainer 
 Testing a secure Asp.Net Core Api using Keycloak Testcontainer
 
+<img width="537" alt="logo" src="https://github.com/user-attachments/assets/a667c882-fd82-4c4d-be92-dbe12bf8f5cb">
+
 ## Solution and Projects setup
 Create a new solution
 ```powershell
