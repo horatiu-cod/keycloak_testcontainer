@@ -1,0 +1,50 @@
+services:
+  keycloak_server:
+    image:  keycloak/keycloak:26.0
+    container_name: keycloak
+    command:  start-dev --import-realm
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres_keycloak
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: passw0rd
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/certs/certificate.pem
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/certs/certificate.key
+    ports:
+      - "8880:8080"
+      - "8443:8443"
+    depends_on:
+      postgres_keycloak:
+        condition: service_healthy
+    volumes:
+      - ./Certs:/opt/keycloak/certs
+    networks:
+      - keycloak_network
+  
+  postgres_keycloak:
+    image: postgres:16.0
+    container_name: postgres
+    command: postgres -c 'max_connections=200'
+    restart: always
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "passw0rd"
+      POSTGRES_DB: "keycloak"
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-datas:/var/lib/postgresql/data
+    healthcheck:
+     test: "exit 0"
+    networks:
+      - keycloak_network
+
+
+volumes:
+  postgres-datas:
+networks:
+  keycloak_network:
+    driver: bridge

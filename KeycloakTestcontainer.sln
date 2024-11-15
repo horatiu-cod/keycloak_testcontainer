@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeycloakTestcontainer.Api", "KeycloakTestcontainer.Api\KeycloakTestcontainer.Api.csproj", "{501BB7F1-2423-470E-8330-3B0494B46F59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeycloakTestcontainer.Test", "KeycloakTestcontainer.Test\KeycloakTestcontainer.Test.csproj", "{D8CCD1BE-8923-46C0-976D-0FC972179DB1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{501BB7F1-2423-470E-8330-3B0494B46F59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{501BB7F1-2423-470E-8330-3B0494B46F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{501BB7F1-2423-470E-8330-3B0494B46F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{501BB7F1-2423-470E-8330-3B0494B46F59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8CCD1BE-8923-46C0-976D-0FC972179DB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8CCD1BE-8923-46C0-976D-0FC972179DB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8CCD1BE-8923-46C0-976D-0FC972179DB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8CCD1BE-8923-46C0-976D-0FC972179DB1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

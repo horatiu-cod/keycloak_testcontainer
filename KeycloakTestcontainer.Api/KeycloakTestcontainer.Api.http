@@ -1,0 +1,20 @@
+@KeycloakTestcontainer.Api_HostAddress = http://localhost:5003
+@baseUrl = https://localhost:8443
+@public_client = myclient
+@realm = myrealm
+@user = myuser
+@user_pass = mypassword
+
+GET {{KeycloakTestcontainer.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+### Login user public client http
+@name token_request
+POST {{baseUrl}}/realms/{{realm}}/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&client_id={{public_client}}&username={{user}}&password={{user_pass}}
+
+#### response
+@access_token = {{{name}.response.body.access_token}}
+@refresh_token = {{{neame}.response.body.refresh_token}}
