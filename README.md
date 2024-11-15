@@ -128,12 +128,12 @@ public class ApiFactoryFixture : WebApplicationFactory<IApiMarker>, IAsyncLifeti
         .WithImage("keycloak/keycloak:26.0")
         .WithPortBinding(8443, 8443)
         //map the realm configuration file import.json.
-        .WithResourceMapping("./Integration/import/import.json", "/opt/keycloak/data/import")
+        .WithResourceMapping("./Import/import.json", "/opt/keycloak/data/import")
         //
-        .WithResourceMapping("./Integration/Certs", "/opt/keycloak/certs")
+        .WithResourceMapping("./Certs", "/opt/keycloak/certs")
         .WithCommand("--import-realm")
-        .WithEnvironment("KC_HTTPS_CERTIFICATE_FILE", "/opt/keycloak/certs/cert.pem")
-        .WithEnvironment("KC_HTTPS_CERTIFICATE_KEY_FILE", "/opt/keycloak/certs/key.key")
+        .WithEnvironment("KC_HTTPS_CERTIFICATE_FILE", "/opt/keycloak/certs/certificate.pem")
+        .WithEnvironment("KC_HTTPS_CERTIFICATE_KEY_FILE", "/opt/keycloak/certs/certificate.key")
         .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(8443))
         .WithClean(true)
         .Build();
@@ -201,8 +201,8 @@ public class AuthenticateEndpointTests(ApiFactoryFixture apiFactory)
         {
             { "grant_type", "password" },
             { "client_id", $"{client}" },
-            { "username", "h@g.com" },
-            { "password", "s3cr3t" }
+            { "username", "myuser" },
+            { "password", "mypassword" }
         };
 
         //Get the access token from the Keycloak server
@@ -256,20 +256,48 @@ services:
   keycloak_server:
     image:  keycloak/keycloak:26.0
     container_name: keycloak
-    command:  start-dev
+    command:  start-dev --import-realm
     environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres_keycloak
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: passw0rd
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/certs/certificate.pem
       KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/certs/certificate.key
     ports:
-      - "8080:8080"
+      - "8880:8080"
       - "8443:8443"
+    depends_on:
+      postgres_keycloak:
+        condition: service_healthy
     volumes:
       - ./Certs:/opt/keycloak/certs
     networks:
       - keycloak_network
+  
+  postgres_keycloak:
+    image: postgres:16.0
+    container_name: postgres
+    command: postgres -c 'max_connections=200'
+    restart: always
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "passw0rd"
+      POSTGRES_DB: "keycloak"
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-datas:/var/lib/postgresql/data
+    healthcheck:
+     test: "exit 0"
+    networks:
+      - keycloak_network
 
+volumes:
+  postgres-datas:
 networks:
   keycloak_network:
     driver: bridge
@@ -322,7 +350,7 @@ Fill in the Set password form with a ``mypassword`` password.
 
 Toggle Temporary to Off so that the user does not need to update this password at the first login.
 
-click **Save**.
+Click **Save**.
 
 <img width="439" alt="image" src="https://github.com/user-attachments/assets/6cc98b78-a7a4-45f8-bb8d-b7814556ecd3">
 
@@ -398,17 +426,31 @@ Click **Add client scope** tab, select audience and click **Add** default.
 
 <img width="421" alt="image" src="https://github.com/user-attachments/assets/87c6f48b-2205-4a88-8439-86bcd72fcbec">
 
-###Export realm configuration
+### Export the realm configuration
 
-In order to same configuration in the testcontainer, we will export this realm configuration to a import.josn file. The file will be imported by the test container during start-up.
+In order to have this same configuration every time when the testcontainer is started, we will export this realm configuration to a import.josn file. The file will be imported by the test container during start-up.
 
-Add a folder named Import to the test project.
+Add a folder named **Import** to the test project.
 
 <img width="203" alt="image" src="https://github.com/user-attachments/assets/1118d55c-261c-4eb5-aef7-c74f065f2c71">
 
-Open an terminal and navigate to the folder.
+Open a terminal and navigate to the folder.
+
+Identify the keyclaok container ```docker ps```
+
+Access the container ```docker exec -it (container id) /bin/bash```
+
+Export the realm configuration
+
+```powershell
+cd /opt/keycloak/bin
+./kc.sh export --file /tmp/(file name).json --realm (realm name)
+```
 
 <img width="784" alt="image" src="https://github.com/user-attachments/assets/65351476-f095-4c1a-88e2-a8c9fcd93067">
+
+
+Copy the file from container to Import folder ```docker cp {container id):/tmp/{file name}.json ./{directory name}```
 
 
 <img width="794" alt="image" src="https://github.com/user-attachments/assets/7acd9309-cbe5-40d5-a3ff-95aa51bf21e5">
