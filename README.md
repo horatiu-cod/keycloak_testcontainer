@@ -496,7 +496,7 @@ Copy the file from container to Import folder ```docker cp {container id):/tmp/{
 
 ### Testing
 
-Run the tests. both test shuold pass.
+Run the tests. Both test shuold pass.
 
 <img width="471" alt="image" src="https://github.com/user-attachments/assets/b96182b3-23c0-4d5b-806c-a71e8e003eec">
 
