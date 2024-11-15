@@ -177,9 +177,7 @@ namespace KeycloakTestcontainer.Test;
 [Collection(nameof(ApiFactoryFixtureCollection))]
 public class AuthenticateEndpointTests(ApiFactoryFixture apiFactory)
 {
-    //create api http client
     private readonly HttpClient _httpClient = apiFactory.CreateClient();
-    //http client to call Keycloak server
     private readonly HttpClient _client = new();
     private readonly string _baseAddress = apiFactory.BaseAddress ?? string.Empty;
 
@@ -187,6 +185,7 @@ public class AuthenticateEndpointTests(ApiFactoryFixture apiFactory)
     public async Task AuthenticateEndpoint_WhenUserIsAuthenticated_ShouldReturnOk()
     {
         //Arrange
+
         //The realm and the client configured in the Keycloak server
         var realm = "myrealm";
         var client = "myclient";
@@ -211,6 +210,7 @@ public class AuthenticateEndpointTests(ApiFactoryFixture apiFactory)
         var token = content?["access_token"]?.ToString();
 
         //Act
+
         //Add the access token to request header
         _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         //Call the Api secure endpoint
@@ -219,6 +219,45 @@ public class AuthenticateEndpointTests(ApiFactoryFixture apiFactory)
         //Assert
         result.IsSuccessStatusCode.Should().BeTrue();
         result.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+    }
+    [Fact]
+    public async Task AuthenticateEndpoint_WhenUserIsNotAuthenticated_ShouldReturnUnauthorized()
+    {
+        //Arrange
+
+        //The realm and the client configured in the Keycloak server
+        var realm = "myrealm";
+        var client = "myclient";
+
+        //Keycloak server token endpoint
+        var url = $"{_baseAddress}/realms/{realm}/protocol/openid-connect/token";
+        //Api secure endpoint 
+        var apiUrl = "api/authenticate";
+
+        //Create the url encoded body
+        var data = new Dictionary<string, string>
+        {
+            { "grant_type", "password" },
+            { "client_id", $"{client}" },
+            { "username", "myuser" },
+            { "password", "badpassword" }
+        };
+
+        //Get the access token from the Keycloak server
+        var response = await _client.PostAsync(url, new FormUrlEncodedContent(data));
+        var content = await response.Content.ReadFromJsonAsync<JsonObject>();
+        var token = content?["access_token"]?.ToString();
+
+        //Act
+
+        //Add the access token to request header
+        _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        //Call the Api secure endpoint
+        var result = await _httpClient.GetAsync(apiUrl);
+
+        //Assert
+        result.IsSuccessStatusCode.Should().BeFalse();
+        result.StatusCode.Should().Be(System.Net.HttpStatusCode.Unauthorized);
     }
 }
 ```
@@ -454,6 +493,13 @@ Copy the file from container to Import folder ```docker cp {container id):/tmp/{
 
 
 <img width="794" alt="image" src="https://github.com/user-attachments/assets/7acd9309-cbe5-40d5-a3ff-95aa51bf21e5">
+
+### Testing
+
+Run the tests. both test shuold pass.
+
+<img width="471" alt="image" src="https://github.com/user-attachments/assets/b96182b3-23c0-4d5b-806c-a71e8e003eec">
+
 
 
 
