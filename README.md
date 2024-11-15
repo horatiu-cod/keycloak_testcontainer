@@ -9,7 +9,7 @@ Create a new solution
 dotnet new sln -n KeycloakTestcontainer
 ```
 ### API project setup
-Create and add a MinimalApi project to the solution
+Create and add a MinimalApi project to the solution.
 ```powershell
 dotnet new webapi -n KeycloakTestcontainer.Api
 dotnet sln add ./KeycloakTestcontainer.Api
@@ -87,17 +87,17 @@ It will be used as entry point of the ```WebApplicationFactory<IApiMarker>```
 <img width="250" alt="iapimarker" src="https://github.com/user-attachments/assets/f81e22f5-07af-42ff-a9a8-2ee04629f416">
 
 ### Test project setup
-Create and add a xUnit test project to the solution
+Create and add a xUnit test project to the solution.
 ```powershell
 dotnet new xunit -n KeycloakTestcontainer.Test
 dotnet sln add ./KeycloakTestcontainer.Test
 ```
-Add reference to KeycloakTestcontainer.Api project
+Add reference to KeycloakTestcontainer.Api project.
 ```powershell
 cd KeycloakTestcontainer.Test
 dotnet add reference ../KeycloakTestcontainer.Api
 ```
-Add package Testcontainers.Keycloak KeycloakTestcontainer.Test.  Change the version as required.
+Add package Testcontainers.Keycloak.  Change the version as required.
 ```powershell
 dotnet add package Testcontainers.Keycloak --version x.x.x
 ```
@@ -131,7 +131,7 @@ public class ApiFactoryFixture : WebApplicationFactory<IApiMarker>, IAsyncLifeti
         .WithPortBinding(8443, 8443)
         //map the realm configuration file import.json.
         .WithResourceMapping("./Import/import.json", "/opt/keycloak/data/import")
-        //
+        //map the certificates
         .WithResourceMapping("./Certs", "/opt/keycloak/certs")
         .WithCommand("--import-realm")
         .WithEnvironment("KC_HTTPS_CERTIFICATE_FILE", "/opt/keycloak/certs/certificate.pem")
@@ -274,7 +274,7 @@ docker pull keycloak/keycloak:26.0
 ```
 To avoid the ```ERR_SSL_PROTOCOL_ERROR``` in the browser , will use the developer certificates for https connection.
 
-Create a Crets folder in KeycloakTestcontainer.Test. Will store the certificates here.
+Create a Certs folder in KeycloakTestcontainer.Test. Will store the certificates here.
 
 <img width="206" alt="image" src="https://github.com/user-attachments/assets/9e8be60d-6a91-4ea6-b8d1-5694c4f16d23">
 
@@ -379,7 +379,7 @@ First name: any first name
 
 Last name: any last name
 
-Click Create.
+Click **Create**.
 
 <img width="743" alt="image" src="https://github.com/user-attachments/assets/51f1ba84-6969-47ed-8594-7e3d9b603e15">
 
