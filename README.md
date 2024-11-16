@@ -4,11 +4,10 @@ Testing a secure Asp.Net Core Api using Keycloak Testcontainer
 <img width="537" alt="logo" src="https://github.com/user-attachments/assets/a667c882-fd82-4c4d-be92-dbe12bf8f5cb">
 
 ## Solution and Projects setup
-Create a new solution
+Create a new solution.
 ```powershell
 dotnet new sln -n KeycloakTestcontainer
 ```
-### API project setup
 Create and add a MinimalApi project to the solution.
 ```powershell
 dotnet new webapi -n KeycloakTestcontainer.Api
@@ -18,6 +17,29 @@ Add package Microsoft.AspNetCore.Authentication.JwtBearer for token validation. 
 ```powershell
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version x.x.x
 ```
+Create and add a xUnit test project to the solution.
+```powershell
+dotnet new xunit -n KeycloakTestcontainer.Test
+dotnet sln add ./KeycloakTestcontainer.Test
+```
+Add reference to KeycloakTestcontainer.Api project.
+```powershell
+dotnet add reference ../KeycloakTestcontainer.Api
+```
+Add package Testcontainers.Keycloak.  Change the version as required.
+```powershell
+dotnet add package Testcontainers.Keycloak --version x.x.x
+```
+Add package Microsoft.AspNetCore.Mvc.Testing. It will spin up an in memory web api for testing. Change the version as required.
+```powershell
+dotnet add package Microsoft.AspNetCore.Mvc.Testing --version x.x.x
+```
+Add package dotnet add package FluentAssertions. Change the version as required.
+```powershell
+dotnet add package FluentAssertions --version x.x.x
+```
+### API project setup
+
 Add Authentication and Authorization to program.cs
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
@@ -87,28 +109,6 @@ It will be used as entry point of the ```WebApplicationFactory<IApiMarker>```
 <img width="250" alt="iapimarker" src="https://github.com/user-attachments/assets/f81e22f5-07af-42ff-a9a8-2ee04629f416">
 
 ### Test project setup
-Create and add a xUnit test project to the solution.
-```powershell
-dotnet new xunit -n KeycloakTestcontainer.Test
-dotnet sln add ./KeycloakTestcontainer.Test
-```
-Add reference to KeycloakTestcontainer.Api project.
-```powershell
-cd KeycloakTestcontainer.Test
-dotnet add reference ../KeycloakTestcontainer.Api
-```
-Add package Testcontainers.Keycloak.  Change the version as required.
-```powershell
-dotnet add package Testcontainers.Keycloak --version x.x.x
-```
-Add package Microsoft.AspNetCore.Mvc.Testing. It will spin up an in memory web api for testing. Change the version as required.
-```powershell
-dotnet add package Microsoft.AspNetCore.Mvc.Testing --version x.x.x
-```
-Add package dotnet add package FluentAssertions. Change the version as required.
-```powershell
-dotnet add package FluentAssertions --version x.x.x
-```
 Add ``ApiFactoryFixture.cs`` class to the KeycloakTestcontainer.Test project.
 
 <img width="250" alt="image" src="https://github.com/user-attachments/assets/106d1875-22bd-4b58-9495-0c5118b58ac0">
